@@ -34,23 +34,25 @@ type Drone = {
 
 const LOW_BATTERY_THRESHOLD = 25;
 
+// MATLAB default axes ColorOrder (R2019b+): blue, orange, yellow, purple,
+// green, light-blue, red. Markers use the same palette as plot() lines.
 const stateColor = (drone: Drone) => {
-  if (drone.battery <= LOW_BATTERY_THRESHOLD) return "#ef4444";
+  if (drone.battery <= LOW_BATTERY_THRESHOLD) return "#A2142F";
 
   switch (drone.state) {
     case "CRUISE":
     case "TAKEOFF":
     case "APPROACH":
     case "DELIVERY":
-      return "#2563eb";
+      return "#0072BD";
     case "RETURNING":
-      return "#f59e0b";
+      return "#D95319";
     case "CHARGING":
     case "LANDED":
     case "OFF":
-      return "#64748b";
+      return "#7F7F7F";
     default:
-      return "#111827";
+      return "#000000";
   }
 };
 
@@ -240,9 +242,14 @@ export default function App() {
         {error && <div className="api-error">{error}</div>}
 
         <section className="map-shell">
+          <div className="figure-title">
+            <span className="figure-dot" />
+            <span>Figure 1: fleet_map — lat vs lon (100 drones)</span>
+            <span className="figure-tools">−&nbsp;&nbsp;□&nbsp;&nbsp;×</span>
+          </div>
           <MapContainer
-            center={[36.1699, -115.1398]}
-            zoom={13}
+            center={[31.7812939, 76.9975020]}
+            zoom={50}
             className="map"
           >
             <FocusDrone drone={selectedDrone} />

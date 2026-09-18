@@ -1,5 +1,53 @@
-venv/
-__pycache__/
-*.pyc
+# C++ build artifacts
+sim.exe
 *.exe
-*.json
+*.o
+*.obj
+*.out
+*.app
+
+# Runtime-generated telemetry (overwritten every 2s by ./sim.exe, do not commit)
+backend/telemetry.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / npm / Vite build output
+node_modules/
+dashboard/display/node_modules/
+dist/
+dist-ssr/
+dashboard/display/dist/
+dashboard/display/dist-ssr/
+build/
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editors / OS cruft
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
