@@ -32,6 +32,13 @@ type Drone = {
   timestamp: number;
 };
 
+type Pad = {
+  id: number;
+  occupied_by: number | null;
+  time_remaining: number;
+  queue: number[];
+};
+
 const LOW_BATTERY_THRESHOLD = 25;
 
 // MATLAB default axes ColorOrder (R2019b+): blue, orange, yellow, purple,
@@ -84,6 +91,8 @@ function FocusDrone({ drone }: { drone: Drone | null }) {
 
 export default function App() {
   const [drones, setDrones] = useState<Drone[]>([]);
+  const [chargingPads, setChargingPads] = useState<Pad[]>([]);
+  const [queuedRequests, setQueuedRequests] = useState<Array<{ package_id: string; status: string }>>([]);
   const [selectedDrone, setSelectedDrone] = useState<Drone | null>(null);
   const [filter, setFilter] = useState<string>("ALL");
   const [loading, setLoading] = useState(true);
@@ -98,6 +107,8 @@ export default function App() {
         })
         .then((data) => {
           setDrones(data.drones ?? []);
+          setChargingPads(data.charging_pads ?? []);
+          setQueuedRequests(data.queued_requests ?? []);
           setLoading(false);
           setError("");
         })
@@ -240,6 +251,38 @@ export default function App() {
         )}
 
         {error && <div className="api-error">{error}</div>}
+
+        <section className="fleet-overview">
+          <div className="info-panel">
+            <h3>Charging Pads</h3>
+            {chargingPads.length === 0 ? (
+              <p>No pad telemetry available.</p>
+            ) : (
+              <ul>
+                {chargingPads.map((pad) => (
+                  <li key={pad.id}>
+                    Pad {pad.id}: {pad.occupied_by ? `Drone ${pad.occupied_by}` : "available"}
+                    {pad.time_remaining > 0 ? ` • ${pad.time_remaining} min` : ""}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="info-panel">
+            <h3>Queued Requests</h3>
+            {queuedRequests.length === 0 ? (
+              <p>No requests in queue.</p>
+            ) : (
+              <ul>
+                {queuedRequests.map((request, index) => (
+                  <li key={`${request.package_id ?? index}`}>
+                    {request.package_id ?? `Request ${index + 1}`}: {request.status}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
 
         <section className="map-shell">
           <div className="figure-title">
