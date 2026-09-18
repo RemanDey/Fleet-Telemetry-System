@@ -51,7 +51,7 @@ static int staticId = 100; return ++staticId;
 
 ## 2. World Model: `data/locations.h`
 
-* `BASES`: 3 fixed Vegas hubs (South Strip, North LV, West Side).
+* `BASES`: single fixed hub `BASE STATION` at IIT Mandi North Campus Main Gate (31.7812939, 76.9975020).
 * `DESTINATIONS`: `generateDestinations(1000)` with `mt19937(42)` — **deterministic**. Same 1000 addresses every run. `lat~U[36.05,36.28]`, `lng~U[-115.35,-115.05]`, `house~U[100,9999] + 24 street names`.
 * Seeded RNG = reproducible test fixture. Good olympiad practice.
 
@@ -130,7 +130,7 @@ fleet.writeTelemetry("backend/telemetry.json"); // O(N) full rewrite EVERY tick
 
 Path is CWD-relative — must launch from repo root, else silent `Failed to write telemetry`. No atomic rename → **torn-read race** with FastAPI reader.
 
-Build: `Makefile: CXX=g++ -std=c++17 -Wall -I. SRC=sim/sim.cpp common/id.cpp → sim.exe`.
+Build: `Makefile: CXX=g++ -std=c++17 -Wall -I. SRC=sim/sim.cpp common/id.cpp → simulator`.
 
 ---
 
@@ -194,4 +194,4 @@ Hardcodings: API URL, thresholds, map center — no env config.
 4. Model battery-death (no flight at 0%), handle `SIGTERM`, remove dead `START/APPROACH`, `distance2D`, `chargingTicksRemaining` (written never read).
 5. Validate JSON with Pydantic, escape strings, use haversine if going beyond demo.
 
-Run order: `make && ./sim.exe` (root) → `uvicorn api.main:app --port 8000` (from `api/`, path fix needed) → `npm run dev` (from `dashboard/display`).
+Run order: `make && ./simulator` (root) → `uvicorn api.main:app --port 8000` (from `api/`, path fix needed) → `npm run dev` (from `dashboard/display`).

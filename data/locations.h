@@ -6,22 +6,22 @@
 #include <random>
 #include <string>
 
-// Las Vegas street grid
+// IIT Mandi North Campus, Kamand Valley (31.7812939, 76.9975020)
 inline const std::vector<std::string> STREET_NAMES = {
-  "S Las Vegas Blvd", "W Charleston Blvd", "E Flamingo Rd",
-  "S Maryland Pkwy", "W Sahara Ave", "E Tropicana Ave",
-  "S Decatur Blvd", "W Spring Mountain Rd", "E Desert Inn Rd",
-  "S Eastern Ave", "W Warm Springs Rd", "E Sunset Rd",
-  "S Rainbow Blvd", "W Cheyenne Ave", "E Bonanza Rd",
-  "S Jones Blvd", "W Lake Mead Blvd", "E Carey Ave",
-  "S Nellis Blvd", "W Craig Rd", "E Stewart Ave",
-  "S Pecos Rd", "W Ann Rd", "E Owens Ave"
+  "North Campus Main Rd", "Academic Block Rd", "Hostel Zone Rd",
+  "Kamand Valley Rd", "Salgi Village Rd", "Uhl River Rd",
+  "Katindi Rd", "Kataula Rd", "A9 Building Rd",
+  "Library Rd", "Sports Complex Rd", "Guest House Rd",
+  "Dining Hall Rd", "Hospital Rd", "Auditorium Rd",
+  "Village Square Rd", "Faculty Housing Rd", "School Block Rd",
+  "Gymnasium Rd", "Canteen Rd", "Workshop Rd",
+  "Lab Block Rd", "South Campus Link Rd", "River Side Path"
 };
 
 inline std::vector<Location> generateDestinations(int count) {
   std::mt19937 gen(42);
-  std::uniform_real_distribution<double> latDist(36.05, 36.28);
-  std::uniform_real_distribution<double> lngDist(-115.35, -115.05);
+  std::uniform_real_distribution<double> latDist(31.765, 31.795);
+  std::uniform_real_distribution<double> lngDist(76.985, 77.010);
   std::uniform_int_distribution<int> streetDist(0, STREET_NAMES.size() - 1);
   std::uniform_int_distribution<int> numDist(100, 9999);
 
@@ -31,7 +31,7 @@ inline std::vector<Location> generateDestinations(int count) {
   for (int i = 0; i < count; i++) {
     double lat = latDist(gen);
     double lng = lngDist(gen);
-    std::string addr = std::to_string(numDist(gen)) + " " + STREET_NAMES[streetDist(gen)] + ", Las Vegas, NV";
+    std::string addr = std::to_string(numDist(gen)) + " " + STREET_NAMES[streetDist(gen)] + ", Kamand Valley, HP";
     destinations.push_back({lat, lng, addr});
   }
 
@@ -39,9 +39,7 @@ inline std::vector<Location> generateDestinations(int count) {
 }
 
 inline const std::vector<Location> BASES = {
-  {36.1147, -115.1728, "South Strip Fulfillment Center"},
-  {36.1862, -115.1373, "North Las Vegas Warehouse"},
-  {36.1500, -115.2500, "West Side Distribution Hub"}
+  {31.7812939, 76.9975020, "BASE STATION"}
 };
 
 inline const std::vector<Location> DESTINATIONS = generateDestinations(1000);

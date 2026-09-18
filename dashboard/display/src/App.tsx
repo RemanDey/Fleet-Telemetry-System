@@ -244,12 +244,12 @@ export default function App() {
         <section className="map-shell">
           <div className="figure-title">
             <span className="figure-dot" />
-            <span>Figure 1: fleet_map — lat vs lon (100 drones)</span>
+            <span>Figure 1: fleet_map — lat vs lon ({drones.length} drones)</span>
             <span className="figure-tools">−&nbsp;&nbsp;□&nbsp;&nbsp;×</span>
           </div>
           <MapContainer
-            center={[31.7812939, 76.9975020]}
-            zoom={50}
+            center={[31.7812939, 76.997502]}
+            zoom={15}
             className="map"
           >
             <FocusDrone drone={selectedDrone} />

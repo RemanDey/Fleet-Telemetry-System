@@ -13,7 +13,6 @@
 std::random_device rd;
 std::mt19937 gen(rd());
 
-std::uniform_int_distribution<int> baseDist(0, BASES.size() - 1);
 std::uniform_int_distribution<int> destDist(0, DESTINATIONS.size() - 1);
 std::uniform_real_distribution<double> offsetDist(-0.0003, 0.0003);
 std::uniform_real_distribution<double> speedDist(0.00015, 0.00035);
@@ -22,7 +21,7 @@ using std::cout;
 using std::endl;
 using std::vector;
 
-const int NUM_OF_DRONES = 100;
+const int NUM_OF_DRONES = 10;
 const double CRUISE_ALTITUDE = 30.0;
 const int DELIVERY_WAIT_TICKS = 3;
 
@@ -62,7 +61,7 @@ int main() {
   cout << "Adding drones..." << endl;
 
   for (int i = 0; i < NUM_OF_DRONES; i++) {
-    Location chosenBase = BASES[baseDist(gen)];
+    Location chosenBase = BASES.front();
     Location chosenDestination = DESTINATIONS[destDist(gen)];
 
     double latOffset = offsetDist(gen);

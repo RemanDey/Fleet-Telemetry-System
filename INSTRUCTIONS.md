@@ -44,7 +44,7 @@ Terminal 1 (repo root):
 
 ```bash
 make
-./sim.exe
+./simulator
 ```
 
 Terminal 2 (API):
@@ -76,17 +76,18 @@ Details and troubleshooting below — read them if anything fails.
 
 **Working directory matters.** The simulator writes to the relative path
 `backend/telemetry.json`. You **must** run it from the repo root.
+Do not double-click the binary in Files — run it from a terminal.
 
 ```bash
 # from repo root: .../Fleet-Telemetry-System
 make
-ls -l sim.exe backend/telemetry.json
-./sim.exe
+ls -l simulator backend/telemetry.json
+./simulator
 ```
 
 What to expect:
 
-- Builds with `g++ -std=c++17 -Wall -I. sim/sim.cpp common/id.cpp -o sim.exe` (see `Makefile`).
+- Builds with `g++ -std=c++17 -Wall -I. sim/sim.cpp common/id.cpp -o simulator` (see `Makefile`).
 - Runs forever in a `while(true)` loop, one tick every 2000 ms.
 - Overwrites `backend/telemetry.json` every tick with 100 drones.
 - Prints per-tick console output. Leave it running. `Ctrl+C` to stop.
@@ -95,7 +96,7 @@ Verify in another shell:
 
 ```bash
 ls -l backend/telemetry.json
-# timestamp should update every ~2s while sim.exe runs
+# timestamp should update every ~2s while simulator runs
 watch -n 1 ls -l backend/telemetry.json
 ```
 
@@ -106,8 +107,8 @@ make clean
 make
 ```
 
-> If you see `Failed to write telemetry`, you started `sim.exe` from the
-> wrong directory. `cd` back to the repo root and rerun `./sim.exe`.
+> If you see `Failed to write telemetry`, you started `simulator` from the
+> wrong directory. `cd` back to the repo root and rerun `./simulator`.
 
 ---
 
@@ -230,7 +231,7 @@ npm run preview   # serves dist/ locally
 
 | Service | Dir to run from | Command | URL |
 |---------|----------------|---------|-----|
-| Simulator | repo root | `./sim.exe` | writes `backend/telemetry.json` (no port) |
+| Simulator | repo root | `./simulator` | writes `backend/telemetry.json` (no port) |
 | API | `api/` | `uvicorn main:app --port 8000` | `http://127.0.0.1:8000/telemetry` |
 | Dashboard dev | `dashboard/display/` | `npm run dev` | `http://localhost:5173` |
 
@@ -251,7 +252,7 @@ Press `Ctrl+C` in each of the 3 terminals, in reverse order (dashboard → API �
 
 ```bash
 # repo root
-make clean      # removes sim.exe
+make clean      # removes simulator
 rm -rf api/.venv dashboard/display/node_modules  # full clean (optional)
 ```
 
@@ -261,7 +262,7 @@ rm -rf api/.venv dashboard/display/node_modules  # full clean (optional)
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| `Failed to write telemetry` | sim started outside repo root | `cd` to repo root, rerun `./sim.exe` |
+| `Failed to write telemetry` | sim started outside repo root | `cd` to repo root, rerun `./simulator` |
 | `FileNotFoundError: ../backend/telemetry.json` from uvicorn | uvicorn started outside `api/` | `cd api`, rerun `uvicorn main:app --port 8000` |
 | `curl :8000/telemetry` returns stale speeds (~0.001 vs code's 0.00015–0.00035) | checked-in `telemetry.json` is old | start the sim; it overwrites the file every 2s |
 | Dashboard empty map / `Failed to fetch` / CORS error | API not running | start Step 2 first, confirm `curl :8000/telemetry` works, use `http://localhost:5173` exactly |

@@ -1,4 +1,6 @@
 # C++ build artifacts
+/simulator
+simulator
 sim.exe
 *.exe
 *.o
@@ -6,7 +8,7 @@ sim.exe
 *.out
 *.app
 
-# Runtime-generated telemetry (overwritten every 2s by ./sim.exe, do not commit)
+# Runtime-generated telemetry (overwritten every 2s by ./simulator, do not commit)
 backend/telemetry.json
 
 # Python
